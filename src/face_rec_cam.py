@@ -72,6 +72,10 @@ def main():
 
                 faces_found = bounding_boxes.shape[0]
                 try:
+                    # detect only face
+                    # if faces_found > 1:
+                    #cv2.putText(frame, "Only one face", (0, 100), cv2.FONT_HERSHEY_COMPLEX_SMALL,
+                    #1, (255, 255, 255), thickness=1, lineType=2)
                     if faces_found > 1:
                         cv2.putText(frame, "Only one face", (0, 100), cv2.FONT_HERSHEY_COMPLEX_SMALL,
                                     1, (255, 255, 255), thickness=1, lineType=2)
@@ -99,12 +103,13 @@ def main():
                                 best_class_indices = np.argmax(predictions, axis=1)
                                 best_class_probabilities = predictions[
                                     np.arange(len(best_class_indices)), best_class_indices]
+                                # set name
                                 best_name = class_names[best_class_indices[0]]
                                 print("Name: {}, Probability: {}".format(best_name, best_class_probabilities))
 
 
-
-                                if best_class_probabilities > 0.2:
+                                #detect face
+                                if best_class_probabilities > 0.5:
                                     cv2.rectangle(frame, (bb[i][0], bb[i][1]), (bb[i][2], bb[i][3]), (0, 255, 0), 2)
                                     text_x = bb[i][0]
                                     text_y = bb[i][3] + 20
